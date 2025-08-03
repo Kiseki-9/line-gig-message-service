@@ -7,8 +7,8 @@ router.use(cors());
 const LINE_CHANNEL_ACCESS_TOKEN = 'OlYwXsqo1RvpSBKFPQuiRVpbtsyIRHFWTxiKkUGxipXhRWmste7XI5oX3Fa8ExbKBgf0a/wMlhhCMc9scj6atVwNUJOLC5Ck/arQSUCPcTT+myxthOrYuCIG8+ApLqr0kjakSVXeUAXCrZwtZ7YXTwdB04t89/1O/w1cDnyilFU=';
 // Handle push
 router.post('/push', async (req, res) => {
-  const { userId, message } = req.body;
- 
+  const { userId, engagerName } = req.body;
+  const message = `Hey there! user ${engagerName} has accepted your deal!`
 
   try {
     const response = await fetch('https://api.line.me/v2/bot/message/push', {
@@ -22,7 +22,7 @@ router.post('/push', async (req, res) => {
         messages: [
           {
             type: 'text',
-            text: message || 'Hello!',
+            text: message,
           },
         ],
       }),
