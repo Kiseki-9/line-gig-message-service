@@ -4,11 +4,12 @@ const cors = require('cors');
 
 // Allow all origins (adjust if needed)
 router.use(cors());
-const LINE_CHANNEL_ACCESS_TOKEN = 'OlYwXsqo1RvpSBKFPQuiRVpbtsyIRHFWTxiKkUGxipXhRWmste7XI5oX3Fa8ExbKBgf0a/wMlhhCMc9scj6atVwNUJOLC5Ck/arQSUCPcTT+myxthOrYuCIG8+ApLqr0kjakSVXeUAXCrZwtZ7YXTwdB04t89/1O/w1cDnyilFU=';
+const LINE_CHANNEL_ACCESS_TOKEN = "ryLRnFaEFteN3jDq+3jV6TE1qd7GH1dYGSJPIg3svzgw5xRZyyBtrCgyYc1jJOOTl3eH2F3WBKbsOG+PAqtucOk49DaCJDiY5Gq/SMtQ+uq1l3WXPUohpVoNVkSVf/Q6d7HoNzp6f6oXmlxd4NO09AdB04t89/1O/w1cDnyilFU=";
 // Handle push
 router.post('/push', async (req, res) => {
   const { userId, engagerName } = req.body;
   const message = `Hey there! user ${engagerName} has accepted your deal!`
+  console.log(`${userId}, ${message}`)
 
   try {
     const response = await fetch('https://api.line.me/v2/bot/message/push', {
@@ -43,7 +44,8 @@ router.post('/push', async (req, res) => {
 module.exports = router;
 
 router.post('/broadcast', async(req,res)=>{
-  const{message} = req.body;
+  const{message,engagerName} = req.body;
+  const msg = `Hey there! user ${engagerName} has accepted your deal!`
   try {
     const response = await fetch('https://api.line.me/v2/bot/message/broadcast', {
       method: 'POST',
@@ -55,7 +57,7 @@ router.post('/broadcast', async(req,res)=>{
         messages: [
           {
             type: 'text',
-            text: message || 'Hello all',
+            text: msg || 'Hello all',
           },
         ],
       }),
